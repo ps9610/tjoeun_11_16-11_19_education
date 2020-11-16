@@ -1,0 +1,15 @@
+<모달창> = layer popup
+- 디자인도 할 수 있고, 크기도 조정할 수 있음
+- 하나의 홈페이지가 전체 홈페이지를 가린다고 생각
+- 스크롤도 없음
+- 고정되어 둥둥 떠있음
+
+- common.css에서 addClass 사용해서 스크롤 w, y 전부 hidden시킴    
+    = scroll 이벤트를 전혀 사용할 수 없음
+    = <html lang="ko" class="addScroll">로 사용가능
+
+- html 가장 밑에 설정
+
+- 모든 설정이 끝나면 display:none, html의 scroll:overflow 지우고
+제이쿼리 설정 들어가기
+
