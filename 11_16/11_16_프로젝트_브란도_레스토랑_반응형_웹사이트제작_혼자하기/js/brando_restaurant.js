@@ -11,6 +11,7 @@
                 that.section07Fn();
                 that.section08Fn();
                 that.section09Fn();
+                that.section09GalleryFn();
                 that.section10Fn();
                 that.section11Fn();
                 that.section12Fn();
@@ -102,7 +103,7 @@
                 $(".slide").css({ zIndex:1 }).stop().animate({opacity:1},0);
                 $(".slide").eq(cnt==0? n:cnt-1).css({ zIndex:2 });
                 $(".slide").eq(cnt).css({ zIndex:3 }).stop().animate({opacity:0},0).animate({opacity:1},800);
-                console.log("next",cnt);
+                //console.log("next",cnt);
                 }
 
             //메인 PREV 슬라이드
@@ -110,7 +111,7 @@
                 $(".slide").css({ zIndex:1 }).stop().animate({opacity:1},0);
                 $(".slide").eq(cnt).css({ zIndex:2 });
                 $(".slide").eq(cnt==n? 0:cnt+1).css({ zIndex:3 }).stop().animate({opacity:1},0).animate({opacity:0},800);
-                console.log("prev",cnt);
+                //console.log("prev",cnt);
                 }
 
             //PREV 슬라이드
@@ -205,8 +206,6 @@
             $(window).resize(function(){
                 resizeFn();
             });
-
-
         },
 /*        section234Fn:    function(){} =
                 section02Fn:function(){},
@@ -227,33 +226,46 @@
         },
         section09Fn:    function(){
             
+            var winH = 0;
             var fileNum = null;
             var endNum = null;
             var fileName = null;
 
+            setTimeout(resizeFn,100)
+
+            function resizeFn(){
+                winH = $(window).innerHeight();
+                $(".img-wrap").css({lineHeight:winH+"px"});
+            }
+
+            $(window).resize(function(){
+                resizeFn();
+            })
+            
             $(".gallery-img-btn").on({
                 click : function(e){
                     e.preventDefault();
                     fileName = $(this).find("img").attr("src");
                     endNum = fileName.indexOf(".jpg");
-                    fileNum = Number($(".img-btn").slice(endNum-2, endNum));
+                    fileNum = Number(fileName.slice(endNum-2, endNum));
                     mainSlideFn();
                 }
             })
             function mainSlideFn(){
                 $(".modal").stop().fadeIn(300);
-                $(".img-wrap img").attr("./img/restaurant-img" + fileNum + ".jpg");
+                $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(600);
+                //❓ attr에 src는 fadeIn/Out때문에, ./img는 변수 fileNum때문에
             }
             $(".arrow-right-btn, .img-btn").on({
                 click : function(e){
                     e.stopPropagation();
                     fileNum++;
-                    fileNum>32? fileNum=25:fileNum;
+                    if(fileNum>32){fileNum=25};
                     mainSlideFn();
                 }
             })
             $(".arrow-left-btn").on({
-                click : function(e){
+                click : function(){
                     fileNum--;
                     fileNum<25? fileNum=32:fileNum;
                     mainSlideFn();
@@ -265,6 +277,9 @@
                     $(".modal").stop().fadeOut(300);
                 }
             })
+        },
+        section09GalleryFn:    function(){
+            
         },
         section10Fn:    function(){
             

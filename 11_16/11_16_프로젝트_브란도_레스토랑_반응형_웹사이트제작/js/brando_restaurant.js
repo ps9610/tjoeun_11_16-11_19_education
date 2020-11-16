@@ -236,7 +236,7 @@
             setTimeout(resizeFn,100);
 
             function resizeFn(){
-                winH = $(window).innerHeight(); //바깥쪽이 아닌 실질적인 창의 내부 높이 // winH로 .img-wrap을 조정해야함
+                winH = $(window).innerHeight();
                 $(".img-wrap").css({lineHeight : winH+"px"});
                 //console.log(winH); -> lineHeight 설정 안 됨 
                 //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
@@ -252,8 +252,8 @@
                     e.preventDefault();
                     //모달창에 띄울 파일의 번호를 추출
                     fileName = $(this).find("img").attr("src");
-                    endNum = fileName.indexOf(".jpg"); //fileNum에 index번호(파일의 위치 번호) 들어감
-                    fileNum = Number(fileName.slice(endNum-2, endNum)); // slice : 글자를 뽑아라
+                    endNum = fileName.indexOf(".jpg");
+                    fileNum = Number(fileName.slice(endNum-2, endNum));
                     // console.log(fileName, fileNum);
                     modalMainSlideFn();
                 }
@@ -262,8 +262,6 @@
             function modalMainSlideFn(){
                 $(".modal").stop().fadeIn(300);
                 $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(1000);
-                                                // = attr("src","./img/restaurant-img" +    29   + ".jpg");
-
             }
             $(".close-btn, .img-wrap").on({
                 click : function(e){
@@ -283,13 +281,10 @@
             $(".arrow-left-btn").on({
                 click : function(){
                     fileNum--;
-                    //fileNum<25? 32:fileNum;
                     if(fileNum<25){fileNum=32} // 롤링되게
-                    //if(fileNum<25){fileNum = 25} // 롤링 안 되고 처음으로 오면 PREV 버튼 막기
                     modalMainSlideFn();                    
                 }
             })
-
         },
         section09GalleryFn:    function(){
             //⭐갤러리 구현(계산식 많아서 따로 함수 만들어줌)⭐

@@ -442,15 +442,68 @@ section234Fn:    function(){
                     //ㄴ>tag의 property를 attr 메소드를 이용하여 가져온다.
             //1-3. 단, 페이드 인/아웃 효과를 준다.
 
+            var winH = 0;
+            
+            setTimeout(resizeFn,100);
+
+            function resizeFn(){
+                winH = $(window).innerHeight(); //바깥쪽이 아닌 실질적인 창의 내부 높이 // winH로 .img-wrap을 조정해야함
+                $(".img-wrap").css({lineHeight : winH+"px"});
+                //console.log(winH); -> lineHeight 설정 안 됨 
+                //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
+            }
+
+            $(window).resize(function(){
+                resizeFn();
+            });
+
+            //모달창 만들기
+
             var fileName = null; //비어있는 값(값이 없음) -> 값이 들어가면 null은 없어짐
             var posNum = null;
             var num = null;
 
-            //"20" + "30" = "2030" -> 문자열
-
             $(".gallery-img-btn").on({//function전 click : 이벤트리스너
                 click : function(e){// gallery-img-btn를 클릭하면 파일 이름을 가져온다 -> 이벤트 핸들러
                     e.preventDefault();
+                    //모달창에 띄울 파일의 번호를 추출
+                    fileName = $(this).find("img").attr("src");
+                    endNum = fileName.indexOf(".jpg"); //fileNum에 index번호(파일의 위치 번호) 들어감
+                    fileNum = Number(fileName.slice(endNum-2, endNum)); // slice : 글자를 뽑아라
+                    // console.log(fileName, fileNum);
+                    modalMainSlideFn();
+                }
+            })    
+                function modalMainSlideFn(){
+                    $(".modal").stop().fadeIn(300);
+                    $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(1000);
+                                                    // = attr("src","./img/restaurant-img" +    29   + ".jpg");
+                }
+                
+                $(".close-btn, .img-wrap").on({
+                    click : function(e){
+                        e.preventDefault();
+                        $(".modal").stop().fadeOut(300);
+                    }
+                })
+    
+                $(".arrow-right-btn, .img-btn").on({
+                    click : function(e){
+                        e.stopPropagation();
+                        fileNum++;
+                        fileNum>32? fileNum=25:fileNum;
+                        modalMainSlideFn();
+                    }
+                })
+                $(".arrow-left-btn").on({
+                    click : function(){
+                        fileNum--;
+                        //fileNum<25? 32:fileNum;
+                        if(fileNum<25){fileNum=32} // 롤링되게
+                        //if(fileNum<25){fileNum = 25} // 롤링 안 되고 처음으로 오면 PREV 버튼 막기
+                        modalMainSlideFn();                    
+                    }
+                })
                     //1 - 하위 요소 검색 + 속성(attr = property) 추출
                     //2 - 속성 내용 중 문자열 위치를 겁색 search(), indexOf("검색할 문자열") [권장함]
                     //3 - 해당 위치에서 특정 문자나 문자열을 추출 / 문자열.slice(시작,끝) 문자열 추출
@@ -495,14 +548,13 @@ section234Fn:    function(){
                     num = fileName.slice(-2, -1); //8 //-2미만 -1전까지
                     num = fileName.slice(-4, -1); //678 //-2미만 -1전까지
                     num = fileName.slice(-4); //6789 //-2미만 0전까지
-
                     num = fileName.slice(-6, -4); //정확히 img의 숫자만 추출함 //-6에서 -4 전까지
                     
                     console.log(fileName, Number(num)); //Number(num) : 문자로 되어진 num를 순수한 정수형으로 바꿔줌
                     console.log(fileName, parseInt(num)); //parseInt(num) = Number(num)
+                    //"20" + "30" = "2030" -> 문자열
                     //console.log(fileName, num); //012가 콘솔에 나오는 이유는 숫자로 인식하지 않기 때문, 숫자로 인식한다면 0은 안 나옴
-                }
-            })
+                
         },
         section10Fn:    function(){
             
