@@ -17,6 +17,7 @@
                 that.section07Fn();
                 that.section08Fn();
                 that.section09Fn();
+                that.section09GalleryFn();
                 that.section10Fn();
                 that.section11Fn();
                 that.section12Fn();
@@ -230,7 +231,22 @@
             var fileName = null;
             var endNum = null;
             var fileNum = null;
+            var winH = 0;
             
+            setTimeout(resizeFn,100);
+
+            function resizeFn(){
+                winH = $(window).innerHeight(); //바깥쪽이 아닌 실질적인 창의 내부 높이 // winH로 .img-wrap을 조정해야함
+                $(".img-wrap").css({lineHeight : winH+"px"});
+                //console.log(winH); -> lineHeight 설정 안 됨 
+                //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
+            }
+
+            $(window).resize(function(){
+                resizeFn();
+            });
+
+            //모달창 구현
             $(".gallery-img-btn").on({
                 click : function(e){
                     e.preventDefault();
@@ -246,7 +262,7 @@
             function modalMainSlideFn(){
                 $(".modal").stop().fadeIn(300);
                 $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(1000);
-                              // = attr("src","./img/restaurant-img" +    29   + ".jpg");
+                                                // = attr("src","./img/restaurant-img" +    29   + ".jpg");
 
             }
             $(".close-btn, .img-wrap").on({
@@ -272,6 +288,40 @@
                     //if(fileNum<25){fileNum = 25} // 롤링 안 되고 처음으로 오면 PREV 버튼 막기
                     modalMainSlideFn();                    
                 }
+            })
+
+        },
+        section09GalleryFn:    function(){
+            //⭐갤러리 구현(계산식 많아서 따로 함수 만들어줌)⭐
+            var winW = 0 ; //창 넓이
+            var imgW = 0 ; //이미지 높이
+            var imgH = 0 ; //이미지 넓이 //이미지 넓이 따라서 높이 바뀜
+            var imgL = 0 ; //이미지 left값 : imgW*칸수:변수 (=이미지 너비 따라 바뀜 -> eq사용해줄거임)
+            var imgT = 0 ; //이미지 탑값 : imgH*줄번호:변수 (=이미지 높이 따라 바뀜)
+            var imgR = 0.75 ; //이미지 비율 = 0.75
+
+            setTimeout(resizeFn,100)
+
+            function resizeFn(){
+                imgR = 0.75 ;
+                winW = $(window).innerWidth();
+                imgW = winW/4; //winW/4의 4가 변수
+                imgH = imgW*imgR;
+
+                $(".gallery li").css({ height:imgH*2 }) //갤러리 전체박스 높이
+                $(".gallery li").eq(0).css({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH })
+                $(".gallery li").eq(1).css({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH })
+                $(".gallery li").eq(2).css({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH })
+                $(".gallery li").eq(3).css({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH })
+               
+                $(".gallery li").eq(4).css({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH })
+                $(".gallery li").eq(5).css({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH })
+                $(".gallery li").eq(6).css({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH })
+                $(".gallery li").eq(7).css({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH })
+            }
+
+            $(window).resize(function(){
+                resizeFn();
             })
         },
         section10Fn:    function(){

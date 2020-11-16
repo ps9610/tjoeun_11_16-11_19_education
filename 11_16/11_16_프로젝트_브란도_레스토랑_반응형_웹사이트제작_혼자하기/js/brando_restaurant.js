@@ -6,12 +6,6 @@
                 that.headerFn();
                 that.section01Fn();
                 that.section234Fn();
-                /* 
-                that.section234Fn(); 
-                 =  that.section02Fn();
-                    that.section03Fn();
-                    that.section04Fn();
-                */
                 that.section05Fn();
                 that.section06Fn();
                 that.section07Fn();
@@ -23,7 +17,7 @@
                 that.section13Fn();
                 that.section14Fn();
                 that.footerFn();
-        },//브란도에서 최초 실행될 js
+        },      //브란도에서 최초 실행될 js
 
         headerFn:       function(){
             var url = null; 
@@ -233,52 +227,42 @@
         },
         section09Fn:    function(){
             
-            var cnt = 25;
-            
-            //  모달창 띄우기
+            var fileNum = null;
+            var endNum = null;
+            var fileName = null;
+
             $(".gallery-img-btn").on({
                 click : function(e){
                     e.preventDefault();
-                    $(".modal").stop().fadeIn(300);
-                    $("html").addClass("addScroll");
-                }
-            });
-
-            //모달창 닫기
-            $(".close-btn, .img-wrap").on({ //이미지까지 클릭이벤트가 적용되었음 -> 제어하면 됨
-                click : function(e){
-                    e.preventDefault();
-                    $(".modal").stop().fadeOut(300);
-                    $("html").removeClass("addScroll");
+                    fileName = $(this).find("img").attr("src");
+                    endNum = fileName.indexOf(".jpg");
+                    fileNum = Number($(".img-btn").slice(endNum-2, endNum));
+                    mainSlideFn();
                 }
             })
-
-            // 이미지 버튼 (모달창 안에 있는거)
-            $(".img-btn, .arrow-right-btn").on({
-                click:function(event){ //클릭하면 이미지가 바뀜
-                    event.stopPropagation();
-                    // 이미지를 눌렀을 때 부모가 눌러지니까 그걸 막아야됨 
-                    // = 부모 영역으로의 전파하는걸 차단
-                    cnt++;
-                    console.log(cnt)
-                    if(cnt>32){cnt=25};
-                    //var imgName = $(this).children().attr("src");
-                    var txt = '<img src="./img/restaurant-img' + cnt + '.jpg" alt="모달창 이미지 1">';
-                    //이미지 통째로 변수로 만들어서 this에 넣어버림, 이미지 숫자만 증가하게 cnt 넣어줌
-                    $(".img-btn").html(txt);
-                    //this = a링크, childeren = a링크의 자식 = img, 의 속성을 가져와라 = src
-                    // alert(imgName)
+            function mainSlideFn(){
+                $(".modal").stop().fadeIn(300);
+                $(".img-wrap img").attr("./img/restaurant-img" + fileNum + ".jpg");
+            }
+            $(".arrow-right-btn, .img-btn").on({
+                click : function(e){
+                    e.stopPropagation();
+                    fileNum++;
+                    fileNum>32? fileNum=25:fileNum;
+                    mainSlideFn();
                 }
             })
             $(".arrow-left-btn").on({
-                click:function(e){
+                click : function(e){
+                    fileNum--;
+                    fileNum<25? fileNum=32:fileNum;
+                    mainSlideFn();
+                }
+            })
+            $(".close, .img-wrap").on({
+                click : function(e){
                     e.preventDefault();
-                    cnt--; //32 31 30 ... 25 
-                    if(cnt<25){cnt=32};
-                    //console.log(cnt)
-                    //var imgName = $(this).children().attr("src");
-                    var txt = '<img src="./img/restaurant-img' + cnt + '.jpg" alt="모달창 이미지 1">';
-                    $(".img-btn").html(txt);
+                    $(".modal").stop().fadeOut(300);
                 }
             })
         },

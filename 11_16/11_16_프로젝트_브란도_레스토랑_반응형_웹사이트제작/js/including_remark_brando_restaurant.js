@@ -484,7 +484,7 @@ section234Fn:    function(){
                     num = fileName.slice(8, 9);  //8(인덱스넘버는 8, 실제로는 9번째) //8이상 9미만의 가운데 숫자들
                     num = fileName.slice(9, 10); //8(인덱스넘버는 9, 실제로는 10번째) //9이상 10미만의 가운데 숫자들
                     num = fileName.slice();      //123456789 //끝위치가 필요없으면 내가 시작하고 싶은 위치만 써주면 됨
-                    num = fileName.slice(0);     //123456789
+                    num = fileName.slice(0);     //123456789 //왼쪽 문자부터 검색하여 일치하는 index 번호를 반환
                     num = fileName.slice(8);     //89
                     num = fileName.slice(9);     //9
                     // 역순
