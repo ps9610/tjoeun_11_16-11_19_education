@@ -214,11 +214,6 @@
 
 
         },
-/*        section234Fn:    function(){} =
-                section02Fn:function(){},
-                section03Fn:function(){},
-                section04Fn:function(){},
-*/
         section05Fn:    function(){
             
         },
@@ -232,68 +227,52 @@
             
         },
         section09Fn:    function(){
-        //1. 갤러리 이미지 버튼을 클릭하면 
-        //1-1. 클릭한 이미지를 모달창에 띄우기
-        //1-2. 클릭한 이미지 파일 이름 가져오기 그리고 번호(이미지 인덱스번호)만 추출하기
-                //ㄴ>tag의 property를 attr 메소드를 이용하여 가져온다.
-        //1-3. 단, 페이드 인/아웃 효과를 준다.
+            var fileName = null;
+            var endNum = null;
+            var fileNum = null;
+            
+            $(".gallery-img-btn").on({
+                click : function(e){
+                    e.preventDefault();
+                    //모달창에 띄울 파일의 번호를 추출
+                    fileName = $(this).find("img").attr("src");
+                    endNum = fileName.indexOf(".jpg"); //fileNum에 index번호(파일의 위치 번호) 들어감
+                    fileNum = Number(fileName.slice(endNum-2, endNum)); // slice : 글자를 뽑아라
+                    // console.log(fileName, fileNum);
+                    modalMainSlideFn();
+                }
+            })
+            //모달창 메인 슬라이드
+            function modalMainSlideFn(){
+                $(".modal").stop().fadeIn(300);
+                $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(1000);
+                              // = attr("src","./img/restaurant-img" +    29   + ".jpg");
 
-        var fileName = null; //비어있는 값(값이 없음) -> 값이 들어가면 null은 없어짐
-        var posNum = null;
-        var num = null;
-
-        //"20" + "30" = "2030" -> 문자열
-
-        $(".gallery-img-btn").on({//function전 click : 이벤트리스너
-            click : function(e){// gallery-img-btn를 클릭하면 파일 이름을 가져온다 -> 이벤트 핸들러
-                e.preventDefault();
-                //1 - 하위 요소 검색 + 속성(attr = property) 추출
-                //2 - 속성 내용 중 문자열 위치를 겁색 search(), indexOf("검색할 문자열") [권장함]
-                //3 - 해당 위치에서 특정 문자나 문자열을 추출 / 문자열.slice(시작,끝) 문자열 추출
-                //4 - Number(); -> 내장함수, 문자형 숫자를 숫자형으로 변환
-
-                //fileName = $(this).children().attr("src"); // this(gallery-img-btn).의 자식.의 속성.중에 href라는 속성 을 가져온다.
-                //fileName = $(this).children("img").attr("src"); // (class 속성도 찾을 수 있음, 광범위하고 구체적) children에 img 써도 되지만 지금은 자식이 하나밖에 없어서 그냥 안 써도 알아서 img인줄 앎 
-                fileName = $(this).find("img").attr("src"); // 내가 클릭한 것 아래의 요소 중에서 찾아라. img라는 요소를 찾아라. 그 중에서 이미지의 속성을 가져와라
-                //둘 다 쓸 줄 알아야 됨
-                //posNum = fileName.search("img");// fileName의 img의 인덱스를 찾아라(문자 열(파일경로까지 다) = 문자 숫자를 알려줌)
-                //posNum = fileName.search(".jpg");// fileName의 jpg의 인덱스를 찾아라(문자 열 = 문자 숫자를 알려줌)
-                //posNum = fileName.indexOf(".jpg");// search보다 더 정확하고 정밀함 (=지금 나오는 결과는 동일)
-                //posNum = fileName.indexOf(".jpg");// search보다 더 정확하고 정밀함 (=지금 나오는 결과는 동일)
-                posNum = fileName.indexOf(".jpg");// search보다 더 정확하고 정밀함 (=지금 나오는 결과는 동일)
-                //posNum = fileName.lastindexOf(".jpg")-2;// search보다 더 정확하고 정밀함 (=지금 나오는 결과는 동일)
-                //num = fileName.slice(posNum-2, posNum);//(포지션)인덱스번호.slice(글자가시작하는위치,글자가끝나는위치)
-                // = num = fileName.slice(posNum,posNum+2)로 쓰면
-                //posNum = fileName.indexOf(".jpg")-2; //-2 써줘야함
-
-                //fileName = '0123456789';
-                num = fileName.slice(0, 2);  //0 1   //0이상 2미만의 가운데 숫자들
-                num = fileName.slice(0, 3);  //0 1 2 //0이상 3미만의 가운데 숫자들
-                num = fileName.slice(2, 5);  //2 3 4 //2이상 5미만의 가운데 숫자들
-                num = fileName.slice(8, 9);  //8(인덱스넘버는 8, 실제로는 9번째) //8이상 9미만의 가운데 숫자들
-                num = fileName.slice(9, 10); //8(인덱스넘버는 9, 실제로는 10번째) //9이상 10미만의 가운데 숫자들
-                num = fileName.slice();  //123456789 //끝위치가 필요없으면 내가 시작하고 싶은 위치만 써주면 됨
-                num = fileName.slice(0); //123456789
-                num = fileName.slice(8); //89
-                num = fileName.slice(9); //9
-                // 역순
-                num = fileName.slice(-1); //9 //-는 뒤에서부터 추출
-                num = fileName.slice(-2); //89 //-는 뒤에서부터 추출
-                num = fileName.slice(0, -1); //012345678 //0부터 마지막 -1전 까지
-                num = fileName.slice(0); //-1을 빼면 전체가 다 나옴
-                num = fileName.slice(-2, -1); //8 //-2미만 -1전까지
-                num = fileName.slice(-4, -1); //678 //-2미만 -1전까지
-                num = fileName.slice(-4); //6789 //-2미만 0전까지
-
-                num = fileName.slice(-6, -4); //정확히 img의 숫자만 추출함 //-6에서 -4 전까지
-                
-                console.log(fileName, Number(num)); //Number(num) : 문자로 되어진 num를 순수한 정수형으로 바꿔줌
-                console.log(fileName, parseInt(num)); //parseInt(num) = Number(num)
-                //console.log(fileName, num); //012가 콘솔에 나오는 이유는 숫자로 인식하지 않기 때문, 숫자로 인식한다면 0은 안 나옴
             }
-        })
+            $(".close-btn, .img-wrap").on({
+                click : function(e){
+                    e.preventDefault();
+                    $(".modal").stop().fadeOut(300);
+                }
+            })
 
-
+            $(".arrow-right-btn, .img-btn").on({
+                click : function(e){
+                    e.stopPropagation();
+                    fileNum++;
+                    fileNum>32? fileNum=25:fileNum;
+                    modalMainSlideFn();
+                }
+            })
+            $(".arrow-left-btn").on({
+                click : function(){
+                    fileNum--;
+                    //fileNum<25? 32:fileNum;
+                    if(fileNum<25){fileNum=32} // 롤링되게
+                    //if(fileNum<25){fileNum = 25} // 롤링 안 되고 처음으로 오면 PREV 버튼 막기
+                    modalMainSlideFn();                    
+                }
+            })
         },
         section10Fn:    function(){
             

@@ -384,7 +384,7 @@ section234Fn:    function(){
             
         },
         section09Fn:    function(){
-            
+/*            
             var cnt = 25;
             
             //  모달창 띄우기
@@ -433,8 +433,76 @@ section234Fn:    function(){
                     $(".img-btn").html(txt);
                 }
             })
-        },
-            
+        },*/
+
+            //(11월 16일~)
+            //1. 갤러리 이미지 버튼을 클릭하면 
+            //1-1. 클릭한 이미지를 모달창에 띄우기
+            //1-2. 클릭한 이미지 파일 이름 가져오기 그리고 번호(이미지 인덱스번호)만 추출하기
+                    //ㄴ>tag의 property를 attr 메소드를 이용하여 가져온다.
+            //1-3. 단, 페이드 인/아웃 효과를 준다.
+
+            var fileName = null; //비어있는 값(값이 없음) -> 값이 들어가면 null은 없어짐
+            var posNum = null;
+            var num = null;
+
+            //"20" + "30" = "2030" -> 문자열
+
+            $(".gallery-img-btn").on({//function전 click : 이벤트리스너
+                click : function(e){// gallery-img-btn를 클릭하면 파일 이름을 가져온다 -> 이벤트 핸들러
+                    e.preventDefault();
+                    //1 - 하위 요소 검색 + 속성(attr = property) 추출
+                    //2 - 속성 내용 중 문자열 위치를 겁색 search(), indexOf("검색할 문자열") [권장함]
+                    //3 - 해당 위치에서 특정 문자나 문자열을 추출 / 문자열.slice(시작,끝) 문자열 추출
+                    //4 - Number(); -> 내장함수, 문자형 숫자를 숫자형으로 변환
+
+                    // 하위 요소 검색 + 속성(attr = property) 추출 //
+                    //fileName = $(this).children().attr("src"); // this(gallery-img-btn).의 자식.의 속성.중에 href라는 속성 을 가져온다.
+                    //           $(this).children("img").attr("src"); 
+                                // ㄴ> class 속성도 찾을 수 있음, 광범위하고 구체적
+                                // ㄴ> children에 img 써도 되지만 지금은 자식이 하나밖에 없어서 그냥 안 써도 알아서 img인줄 앎 
+                    fileName = $(this).find("img").attr("src"); 
+                    // 내가 클릭한 것 아래의 요소 중에서 찾아라. img라는 요소를 찾아라. 그 중에서 이미지의 속성을 가져와라
+                    //children, find 둘 다 쓸 줄 알아야 됨
+
+                    // 2 - 속성 내용 중 문자열 위치를 겁색 search(), indexOf("검색할 문자열") //
+                    //posNum = fileName.search("img");// fileName의 img의 인덱스를 찾아라(문자 열(파일경로까지 다) = 문자 숫자를 알려줌)
+                    //posNum = fileName.search(".jpg");// fileName의 jpg의 인덱스를 찾아라
+                    //posNum = fileName.indexOf(".jpg");// search보다 더 정확하고 정밀함 (=지금 나오는 결과는 동일)
+                    //posNum = fileName.indexOf(".jpg");
+                    posNum = fileName.indexOf(".jpg");
+
+                    // 해당 위치에서 특정 문자나 문자열을 추출 / 문자열.slice(시작,끝) 문자열 추출 //
+                    //num = fileName.slice(posNum-2, posNum);//(포지션)인덱스번호.slice(글자가시작하는위치, 글자가끝나는위치)
+                    //    = fileName.slice(posNum,posNum+2)로 쓰면
+                    //      위의 fileName.indexOf(".jpg")-2; //-2 써줘야함
+
+                    //fileName = '0123456789';
+                    num = fileName.slice(0, 2);  //0 1   //0이상 2미만의 가운데 숫자들
+                    num = fileName.slice(0, 3);  //0 1 2 //0이상 3미만의 가운데 숫자들
+                    num = fileName.slice(2, 5);  //2 3 4 //2이상 5미만의 가운데 숫자들
+                    num = fileName.slice(8, 9);  //8(인덱스넘버는 8, 실제로는 9번째) //8이상 9미만의 가운데 숫자들
+                    num = fileName.slice(9, 10); //8(인덱스넘버는 9, 실제로는 10번째) //9이상 10미만의 가운데 숫자들
+                    num = fileName.slice();      //123456789 //끝위치가 필요없으면 내가 시작하고 싶은 위치만 써주면 됨
+                    num = fileName.slice(0);     //123456789
+                    num = fileName.slice(8);     //89
+                    num = fileName.slice(9);     //9
+                    // 역순
+                    num = fileName.slice(-1); //9 //-는 뒤에서부터 추출
+                    num = fileName.slice(-2); //89 //-는 뒤에서부터 추출
+                    num = fileName.slice(0, -1); //012345678 //0부터 마지막 -1전 까지
+                    num = fileName.slice(0); //-1을 빼면 전체가 다 나옴
+                    num = fileName.slice(-2, -1); //8 //-2미만 -1전까지
+                    num = fileName.slice(-4, -1); //678 //-2미만 -1전까지
+                    num = fileName.slice(-4); //6789 //-2미만 0전까지
+
+                    num = fileName.slice(-6, -4); //정확히 img의 숫자만 추출함 //-6에서 -4 전까지
+                    
+                    console.log(fileName, Number(num)); //Number(num) : 문자로 되어진 num를 순수한 정수형으로 바꿔줌
+                    console.log(fileName, parseInt(num)); //parseInt(num) = Number(num)
+                    //console.log(fileName, num); //012가 콘솔에 나오는 이유는 숫자로 인식하지 않기 때문, 숫자로 인식한다면 0은 안 나옴
+                }
+            })
         },
         section10Fn:    function(){
             
