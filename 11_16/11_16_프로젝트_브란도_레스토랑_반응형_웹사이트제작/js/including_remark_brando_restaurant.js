@@ -385,6 +385,56 @@ section234Fn:    function(){
         },
         section09Fn:    function(){
             
+            var cnt = 25;
+            
+            //  모달창 띄우기
+            $(".gallery-img-btn").on({
+                click : function(e){
+                    e.preventDefault();
+                    $(".modal").stop().fadeIn(300);//show:그냥보이기, fadeIn=opacity(더많이씀):부드럽게보이기
+                    $("html").addClass("addScroll");
+                }
+            });
+
+            //모달창 닫기
+            $(".close-btn, .img-wrap").on({ //이미지까지 클릭이벤트가 적용되었음(=이미지 눌러도 닫힘) -> 제어하면 됨
+                click : function(e){
+                    e.preventDefault();
+                    $(".modal").stop().fadeOut(300);
+                    $("html").removeClass("addScroll");
+                }
+            })
+
+            // 이미지 버튼 (모달창 안에 있는거)
+            $(".img-btn, .arrow-right-btn").on({
+                click:function(event){ //클릭하면 이미지가 바뀜
+                    event.stopPropagation();
+                    // 이미지를 눌렀을 때 부모가 눌러지니까 그걸 막아야됨 
+                    // = 부모 영역으로의 전파하는걸 차단
+                    cnt++;
+                    console.log(cnt)
+                    if(cnt>32){cnt=25};
+                    //var imgName = $(this).children().attr("src");
+                    var txt = '<img src="./img/restaurant-img' + cnt + '.jpg" alt="모달창 이미지 1">';
+                    //이미지 통째로 변수로 만들어서 this에 넣어버림, 이미지 숫자만 증가하게 cnt 넣어줌
+                    $(".img-btn").html(txt);
+                    //this = a링크, childeren = a링크의 자식 = img, 의 속성을 가져와라 = src
+                    // alert(imgName)
+                }
+            })
+            $(".arrow-left-btn").on({
+                click:function(e){
+                    e.preventDefault();
+                    cnt--; //32 31 30 ... 25 
+                    if(cnt<25){cnt=32};
+                    //console.log(cnt)
+                    //var imgName = $(this).children().attr("src");
+                    var txt = '<img src="./img/restaurant-img' + cnt + '.jpg" alt="모달창 이미지 1">';
+                    $(".img-btn").html(txt);
+                }
+            })
+        },
+            
         },
         section10Fn:    function(){
             
