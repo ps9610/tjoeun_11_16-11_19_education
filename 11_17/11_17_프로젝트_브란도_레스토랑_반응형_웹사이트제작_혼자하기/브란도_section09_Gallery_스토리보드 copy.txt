@@ -1,0 +1,103 @@
+section09 : function(){
+1. 갤러리 이미지 버튼을 클릭하면 
+    ㄴ> 클릭한 이미지를 모달창에 띄우기
+    ㄴ> 클릭한 이미지 파일 이름 가져오기 그리고 번호(이미지 인덱스번호)만 추출하기
+        ㄴ>tag의 property를 attr 메소드를 이용하여 가져온다.
+    ㄴ> 단, 페이드 인/아웃 효과를 준다.
+2. 모달창을 resize하면 안쪽 사진이 모달창크기에 맞게 resize되게 하기
+}
+
+section09Gallery : function(){
+
+브란도의 갤러리는 창이 줄면서 사진(칸)의 배열이 바뀌고, 라인도 바뀐다.
+창 너비 1903부터  1200까지는 가로 2줄X세로 4칸
+        1199부터 992까지는  가로 3줄X세로 3칸
+        991부터  768까지는  가로 4줄X세로 2칸
+        767부터  0까지는    가로 1줄X세로 8칸
+기본 설정은 가로2줄X세로4칸.
+
+1. 창을 줄일 때 밑에 있는 글씨 안나오게 조절
+    ㄴ> 창이 resize 되니까 변수 var winW = $(window).innerWidth();
+    ㄴ> 이미지의 넓이 높이도 변하니까 변수 var imgW=; var imgH=;
+    ㄴ> 갤러리는 창 넓이를 100% 사용하기 때문에, 이미지 하나의 넓이는 전체 창 넓이에서 칸 개수로 나눠줌
+        ㄴ> 4칸일 땐 하나당 100/4 = 25%
+        ㄴ> 3칸일 땐 하나당 100/3 = 33.3333%
+        ㄴ> 2칸일 땐 하나당 100/2 = 50%
+        ㄴ> 1칸일 땐 하나당 100/1 = 100% 잡았다고 생각
+    [순수한 이미지의 넓이]
+        ㄴ> imgW = 800, imgH = 600
+    [winW>=1200] //가로2줄X세로4칸
+        ㄴ> 이미지의 넓이와 높이의 비율을 알아내서 계산함
+            ㄴ>600/800 = 0.75
+            ㄴ> var hRate = 600/800;
+        ㄴ> 전체 넓이를 4로 나눠준 후 (1903/4) 비율값(hRate)를 곱해줌
+        ㄴ> imgW=475.75; imgH=356.8125;
+    [winW<1200 && winW>=992] //가로3줄X세로3칸
+        ㄴ> 전체 넓이를 3로 나눠준 후 (1903/3) 비율값(hRate)를 곱해줌
+        ㄴ> imgW=634.3333; imgH=475.75;
+    [winW<992 && winW>=768] //가로4줄X세로2칸
+        ㄴ> 전체 넓이를 2로 나눠준 후 (1903/2) 비율값(hRate)를 곱해줌
+        ㄴ>imgW=951.5; imgH=713.625;
+    [winW<768] //가로1줄X세로8칸
+        ㄴ> 전체 넓이를 1로 나눠준 후 (1903/1) 비율값(hRate)를 곱해줌
+        ㄴ>imgW=1903; imgH=1427.25;
+2. 그러면 다음과 같은 변수 4개가 나온다.
+        var hRate = 600/800;
+        var winW = $(window).innerWidth();
+        var imgH = imgW*hRate;
+        var imgW = winW/4;
+        ㄴ> 여기서 winW/4말고도 
+                  winW/3;
+                  winW/2;
+                  winW/1;
+                    ㄴ> 즉, imgW는 세로 칸에 따라 바뀐다 = 변수설정 가능
+                    ㄴ> var cols = 4
+        var imgW = winW/cols;
+    이제 앞에서 썼던 창 크기에 따라 세로 칸이 어떻게 달라지는지 입력.
+        if (winW>1200){cols=4}
+        else if(winW<=1200 && winW>980){cols=3}
+        else if(winW<=980 && winW>760){cols=2}
+        else if(winW<=760){cols=1}
+    하고 나서 중간확인 위해 함수 생성하고 호출해봄
+        function galleryFn(){};
+        $(window).resize(function(){
+            galleryFn();
+        })
+
+*여기까지 안 된 것들
+    1) 창 줄일때 글씨 안 보이게 해야됨
+    2) 창 줄일 때 3*3, 2*4 1*8 배열 되게 해야함
+        ㄴ> CSS에서 absolute로 바꿔주기
+
+3. 지금은 너비만 resize에 적용되어 있고 높이는 적용되지 않은 상태
+    ㄴ> 사진들 모여있는 ul class = gallery의 높이 설정해줌
+        $(".gallery").css({height:imgH*})
+            ㄴ> 이미지높이*가로 줄
+                ㄴ> 가로 줄 = 2 3 4 8 = 8/4 8/3후자리올림 8/2 8/1 = 즉 8을 세로칸 값으로 나눠줌
+                    ㄴ> 여기서 세로 칸 3개일 때는 나머지가 나오는데 소수점 자리올림해줌 = Math.ceil()
+                ㄴ> var rows = Math.ceil(8/cols)
+    ㄴ> 다시 정리하면 
+        $(".gallery").css({height:imgH*rows});
+    ㄴ> 이제 CSS에서 길게 썼던 gallery li들의 top값, left값, 넓이, 높이값의 반복되는 규칙을 찾고 반복문 설정해줌
+        ㄴ> 참고 : $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH });를 이용
+            ㄴ> eq는 0~7까지 증가하는 수; var cnt=-1(시작이 0이니까);if(cnt>7){break;}(cnt가 7보다 커지면 cnt 증가를 멈춘다.)
+            ㄴ> top: (imgH*0)에서 0은 0000 1111, 000 111 22, 00 11 22 33, 0 1 2 3 4 5 6 7 -> 변수 rows
+            ㄴ> left:(imgW*0)에서 0은 0123 0123, 012 012 01, 01 01 01 01, 0 1 2 3 4 5 6 7 -> 변수 cols
+    ㄴ> for(i=0;i<rows;i++){
+            for(j=0;j<cols;j++){
+                여기는 $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH });을 보고 유추한거니까
+                ㄴ> 이 코드에 변수만 대입해서 입력해줌
+                ㄴ> $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+            }
+    }
+
+
+
+
+
+
+
+
+}
+
+    

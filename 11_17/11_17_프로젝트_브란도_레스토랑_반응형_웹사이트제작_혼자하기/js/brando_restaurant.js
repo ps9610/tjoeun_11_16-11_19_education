@@ -6,12 +6,6 @@
                 that.headerFn();
                 that.section01Fn();
                 that.section234Fn();
-                /* 
-                that.section234Fn(); 
-                 =  that.section02Fn();
-                    that.section03Fn();
-                    that.section04Fn();
-                */
                 that.section05Fn();
                 that.section06Fn();
                 that.section07Fn();
@@ -237,14 +231,12 @@
 
             function resizeFn(){
                 winH = $(window).innerHeight();
-                $(".img-wrap").css({lineHeight : winH+"px"});
-                //console.log(winH); -> lineHeight 설정 안 됨 
-                //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
+                $(".img-wrap").css({lineHeight:winH+"px"});
             }
 
             $(window).resize(function(){
                 resizeFn();
-            });
+            })
 
             //모달창 구현
             $(".gallery-img-btn").on({
@@ -261,6 +253,7 @@
             //모달창 메인 슬라이드
             function modalMainSlideFn(){
                 $(".modal").stop().fadeIn(300);
+                //❓
                 $(".img-wrap img").stop().fadeOut(0).attr("src","./img/restaurant-img" + fileNum + ".jpg").fadeIn(1000);
             }
             $(".close-btn, .img-wrap").on({
@@ -287,35 +280,47 @@
             })
         },
         section09GalleryFn:    function(){
-            // 갤러리 구현
-            var winW = 0 ; //창 넓이
-            var imgW = 0 ; //이미지 높이
-            var imgH = 0 ; //이미지 넓이
-            var imgL = 0 ; //이미지 left값
-            var imgT = 0 ; //이미지 탑값
-            var imgR = 0.75 ; 
+            var hRate = 600/800;
+            var winW = 0;
+            var imgW = 0;
+            var imgH = 0;
+            var n = 0;
+            var rows = 0; //여기서 n = 8 = gallery li의 length
+            var cols = 0;
 
-            setTimeout(resizeFn,100)
+            setTimeout(galleryFn,100);
 
-            function resizeFn(){
-                imgR = 0.75 ;
+            function galleryFn(){
+                // 미디어 쿼리의 역할을 해주는 if문
+                if (winW>1200){cols=4}
+                else if(winW<=1200 && winW>980){cols=3}
+                else if(winW<=980 && winW>760){cols=2}
+                else if(winW<=760){cols=1}
+
+                n = $(".gallery li").length;
                 winW = $(window).innerWidth();
-                imgW = winW/4; //winW/4의 4가 변수
-                imgH = imgW*imgR;
-
-                $(".gallery li").css({ height:imgH*2 }) //갤러리 전체박스 높이
-                $(".gallery li").eq(0).css({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH })
-                $(".gallery li").eq(1).css({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH })
-                $(".gallery li").eq(2).css({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH })
-                $(".gallery li").eq(3).css({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH })
-               
-                $(".gallery li").eq(4).css({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH })
-                $(".gallery li").eq(5).css({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH })
-                $(".gallery li").eq(6).css({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH })
-                $(".gallery li").eq(7).css({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH })
-            }
+                imgW = winW/cols;
+                imgH = imgW*hRate;
+                rows = Math.ceil(n/cols);
+                
+                $(".gallery").css({ height:imgH*rows });
+                var cnt = -1;
+                for(i=0;i<rows;i++){
+                    for(j=0;j<cols;j++){
+                        cnt++;
+                        if(cnt>7){break;}
+                        // console.log( cnt, i, j )
+                        $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+                    }
+                }
+                
+                // console.log("이미지 비율", hRate);
+                // console.log("창 넓이", winW);
+                // console.log("이미지넓이", imgW);
+                // console.log("이미지높이", imgH);
+            };
             $(window).resize(function(){
-                resizeFn();
+                galleryFn();
             })
         },
         section10Fn:    function(){

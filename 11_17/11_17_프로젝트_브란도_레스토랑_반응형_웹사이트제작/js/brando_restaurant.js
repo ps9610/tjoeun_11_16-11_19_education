@@ -1,5 +1,7 @@
 ;(function(window,document,$,undefined){ //항상 밑에서 위로 보기(업데이트 항목은 위로 써줌)
 
+    // var brando = 객체(host)
+    // 객체 안에 property가 있으면 객체함수(리터럴함수=익명함수) = 메소드처럼 쓸 수 있게 됨
     var brando = {
         init:           function(){ 
             var that=this;
@@ -241,7 +243,6 @@
                 //console.log(winH); -> lineHeight 설정 안 됨 
                 //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
             }
-
             $(window).resize(function(){
                 resizeFn();
             });
@@ -287,19 +288,123 @@
             })
         },
         section09GalleryFn: function(){
-            // 갤러리는 창 넓이를 100% 사용하여 이미지를 배분함, 전체 창 넓이에서 칸 갯수대로 나눠줌(% 줘도 됨)
-            // 이미지 한개당 넓이 800, 높이 600, 가로의 크기가 바뀌면 세로의 크기가 자동으로 바뀜 = 높이/너비 = 75%(0.75)
-            var cols = 4; //칸 수 해상도별 변수사용 예정
-            var hRate = 600/800;    // 0.75; 이미지너비 * 이미지높이 비율 값
-            var winW = $(window).innerWidth();
-            var imgW = winW/cols;   // 창너비 / 칸 수(cols)
-            var imgH = imgW*imgR;   
-            var imgT = 0; // 이미지 배분 후 사용
-            var imgL = 0; // 창의 넓이에 따라 바뀜, 이미지 배분 후 사용
+            
+            // 초기값 변수
+            var hRate = 600/800; 
 
-            function (){
-                $(".gallery li").css({ top:, left:, width:, height: }); //section09 gallery li에 들어있는 사진들. 
+            var cols = 4;
+            var n = $(".gallery li").length; //8
+            var rows = Math.ceil(n/cols);
+            var winW = $(window).innerWidth();
+
+            var imgW = winW/cols;
+            var imgH = imgW*hRate;
+            
+            setTimeout(galleryFn,100);
+
+            function galleryFn(){
+                if(winW > 1200){//(1201~)
+                    cols = 4;
+                }
+                else if( winW <= 1200 && winW > 980 ){ //1200이하  980초과 (981~1200)
+                    cols = 3;
+                }
+                else if( winW <= 980 && winW > 760){ //(761~980)
+                    cols = 2;
+                }
+                else if( winW <= 760 && winW >= 0){ //0~760
+                    cols = 1;
+                }
+                n = $(".gallery li").length;
+                rows = Math.ceil(n/cols);
+
+                winW = $(window).innerWidth();
+                imgW = winW/cols;
+                imgH = imgW*hRate;
+
+                // console.log("갤러리갯수", n);
+                // console.log("rate", hRate);
+                // console.log("줄 수", rows);
+                // console.log("칸 수", cols);
+                // console.log("imgW", imgW);
+                // console.log("winW", winW);
+                // console.log("imgH", imgH);
+
+                $(".gallery").css({ height:imgH*rows });
+                var cnt = -1;
+                for(i=0;i<rows;i++){ 
+                    for(j=0;j<cols;j++){ 
+                        cnt++; //0 1 2 3 4 5 6 7
+                        if(cnt>7){break;}
+                        console.log( cnt, i, j )
+                    $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+                    //                                      이미지 높이 값
+                }
             }
+                /* 
+                    if(cols==4){
+                    //칸 수가 4칸인 경우
+                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(3).stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(6).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(7).stop().animate({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH },300);
+                }
+                else if(cols==3){
+                    //칸 수가 3칸인 경우
+                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
+                    
+                    $(".gallery li").eq(6).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(7).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
+                }
+                else if(cols==2){
+                    //칸 수가 2칸인 경우
+                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(2).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(4).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(5).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
+                    
+                    $(".gallery li").eq(6).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(7).stop().animate({ top:(imgH*3), left:(imgW*1), width:imgW, height:imgH },300);
+                }
+                else if(cols==1){
+                    //칸 수가 1칸인 경우
+                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(1).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(2).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(3).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(4).stop().animate({ top:(imgH*4), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(5).stop().animate({ top:(imgH*5), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                    $(".gallery li").eq(6).stop().animate({ top:(imgH*6), left:(imgW*0), width:imgW, height:imgH },300);
+
+                    $(".gallery li").eq(7).stop().animate({ top:(imgH*7), left:(imgW*0), width:imgW, height:imgH },300);
+                }
+                */
+            } 
+
+            $(window).resize(function(){
+                galleryFn();
+            })
         },
         section10Fn:    function(){
             
