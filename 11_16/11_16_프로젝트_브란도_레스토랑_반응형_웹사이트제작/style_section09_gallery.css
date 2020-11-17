@@ -14,7 +14,7 @@
 /* ㄴ> 가로 4칸 :left로부터 0, 25%, 75%, 100% */
 /* 첫번째 줄이니까 (top값*0), left는 4번 반복되어야 하니 0 1 2 3 곱해줌,  */
 #main #section09 .wrap .gap .container .content .gallery > li:nth-child(1) {top:calc(356.8125px*0);left:calc(25%*0);width:25%;height:356.8125px;}
-                                                                        /* {top:0;                 left:0;} */
+                                                                        /* {top:0; 1903/4*0.75=356.8125; left:0;} */
 #main #section09 .wrap .gap .container .content .gallery > li:nth-child(2) {top:calc(356.8125px*0);left:calc(25%*1);width:25%;height:356.8125px;}
                                                                         /* {top:0;                 left:25%;} */
 #main #section09 .wrap .gap .container .content .gallery > li:nth-child(3) {top:calc(356.8125px*0);left:calc(25%*2);width:25%;height:356.8125px;}
