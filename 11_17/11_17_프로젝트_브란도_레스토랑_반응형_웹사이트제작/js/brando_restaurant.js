@@ -330,7 +330,7 @@
                 // console.log("winW", winW);
                 // console.log("imgH", imgH);
 
-                $(".gallery").css({ height:imgH*rows });
+                $(".gallery").css({ height:imgH*rows }).addClass("addZoom");
                 var cnt = -1;
                 for(i=0;i<rows;i++){ 
                     for(j=0;j<cols;j++){ 
@@ -405,6 +405,28 @@
             $(window).resize(function(){
                 galleryFn();
             })
+
+
+            //버튼 이벤트
+            $(".gallery-btn").on({
+                click : function(e){
+                    e.preventDefault();
+                    $(".gallery").removeClass("addZoom")
+                    $(".gallery li").eq(0).hide();
+                    $(".gallery li").eq(2).hide();
+
+                    $(".gallery li").eq(1).show().stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(3).show().stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(4).show().stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(5).show().stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(6).show().stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(7).show().stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery").addClass("addZoom")
+                }
+            })
+
+
+
         },
         section10Fn:    function(){
             
