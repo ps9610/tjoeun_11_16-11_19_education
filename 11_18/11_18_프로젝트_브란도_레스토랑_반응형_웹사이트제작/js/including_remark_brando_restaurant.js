@@ -642,7 +642,7 @@ section234Fn:    function(){
                             //$(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
                             //                                          이미지 높이 값
                             $(".gallery li").removeClass("addZoom2");//모든 li 칸 초기화
-                            $(".gallery li").eq(show[cnt]).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
+                            $(".gallery li").eq(show[cnt]).show().stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
                                 $(this).addClass("addZoom2");// 화면이 늘어난 다음에 스케일 실행해야 하니까 콜백함수
                             });
                         }
