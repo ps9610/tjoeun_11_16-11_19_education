@@ -45,6 +45,14 @@
 #main #section01 .hungry > img {width:40%;}
 }
 @media all and (max-width:991px) and (orientation:portrait){
-/* ㄴ>해상도가 991px이하이고 핸드폰 세로로 돌렸을 때 해당 */
-#main #section01 .hungry > img {width:70%;}
+    /* ㄴ>해상도가 991px이하이고 핸드폰 세로로 돌렸을 때 해당 */
+    #main #section01 .hungry > img {width:70%;}
+}
+
+@media all and (max-width:760px){
+    #main #section09 {padding-top:70px}
+    #main #section09 .wrap .gap .container .content {padding-top:50px;}
+    #main #section09 .wrap .gap .container .content .gallery-nav {padding-bottom:20px;}
+    #main #section09 .wrap .gap .container .content .gallery-nav > ul > li {display:block;margin:0;padding-bottom:20px;}/* 좌우여백 필요없고 아래 여백만 필요함 */
+    #main #section09 .wrap .gap .container .content .gallery-nav > ul > li > a {display:inline-block;}
 }
