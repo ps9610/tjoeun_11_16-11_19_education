@@ -239,9 +239,10 @@
 
             function resizeFn(){
                 winH = $(window).innerHeight();
-                $(".img-wrap").css({lineHeight : winH+"px"});
+                $(".img-wrap").css({lineHeight : winH + "px"});
                 //console.log(winH); -> lineHeight 설정 안 됨 
-                //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
+                //ㄴ> background-position과 lineHeight는 꼭 뒤에 px 단위 써줘야됨
+                    //ㄴ> 안 쓰면 줄 높이가 엄청 크게 잡힘
             }
             $(window).resize(function(){
                 resizeFn();
@@ -344,7 +345,7 @@
                         if(cnt>=show.length){break;}
                         $(".gallery li").removeClass("addZoom2");//모든 li 칸 초기화
                         $(".gallery li").eq(show[cnt]).show().stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
-                            $(this).addClass("addZoom2");// 화면이 늘어난 다음에 스케일
+                            $(".gallery li").addClass("addZoom2");// 화면이 늘어난 다음에 스케일
                         });
                     }
                 }

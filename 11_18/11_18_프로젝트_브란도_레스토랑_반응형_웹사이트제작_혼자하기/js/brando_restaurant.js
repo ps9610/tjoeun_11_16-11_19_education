@@ -324,7 +324,7 @@
                     }
                     //n = $(".gallery li").length;
                     n = show.length;//갤러리 li목록의 갯수 = 항상 8개로 고정아님; show에 정해 놓은 만큼만 보임
-
+                    rows = Math.ceil(n/cols);
                     winW = $(window).innerWidth();
                     imgW = winW/cols;
                     imgH = imgW*hRate;
