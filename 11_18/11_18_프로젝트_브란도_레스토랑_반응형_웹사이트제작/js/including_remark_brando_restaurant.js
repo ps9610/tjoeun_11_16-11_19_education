@@ -563,6 +563,11 @@ section234Fn:    function(){
                 // 이미지 한개당 넓이 800, 높이 600, 가로의 크기가 바뀌면 세로의 크기가 자동으로 바뀜 = 높이/너비 = 75%(0.75)
                 // ECMA6) const hRate = 600/800;    // ECMA6를 사용하면 IE 하위버전, 사파리 등 아무것도 안 되기 때문에 바벨 인코딩을 또 해줘야됨
                 
+                // 함수 실행즉시 없어지고 바로 생기게 할거임
+                $(".gallery").removeClass("addZoom"); //속 알맹이는 없어지게
+                    //칸 수에 따라서 줄 수 바뀜
+                $(".gallery").css({ height:imgH*rows });
+            
                 var hRate = 600/800; // 0.75; 이미지너비 * 이미지높이 비율 값, 상수값(=초기 고정된 값)
             
                 // 초기값 변수(변수는 따로 함수지정)
@@ -575,6 +580,10 @@ section234Fn:    function(){
                 
                 var imgW = winW/cols; // 창너비 / 칸 수(cols)
                 var imgH = imgW*hRate;
+
+                //배열 두 개 필요
+                var hide = [];// 초기값 : 감춰지는(hidden) 목록 없음
+                var show = [0, 1, 2, 3, 4, 5, 6, 7];// 초기값 : li의 목록번호(li갯수, eq에 넣었던 숫자들) 8개 보임
                 
                 setTimeout(galleryFn,100);
                 
@@ -609,18 +618,39 @@ section234Fn:    function(){
                     // console.log("winW", winW);
                     // console.log("imgH", imgH);
                 
-                    //칸 수에 따라서 줄 수 바뀜
-                    $(".gallery").css({ height:imgH*rows }); //이미지높이*줄수(현재4칸2줄), 줄 수도 변수사용
+                    console.log("hide",hide);
+                    console.log("show",show);
+                    //갤러리 숨김 hide();
+                    //         (i<hide 배열길이;)
+                    for(var i=0;i<hide.length;i++){
+                        $(".gallery li").eq(hide[i]).hide(); 
+                    }
+                    
+    
+                    //갤러리 보이기 show();
+                    
                     var cnt = -1;
                     for(i=0;i<rows;i++){ //0~1까지 i = 줄 수 
                         for(j=0;j<cols;j++){ // 0~3 0부터 4 미만까지, j = 칸 수
-                            cnt++; //0 1 2 3 4 5 6 7까지 8번
-                            if(cnt>7){break;}
-                            $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
-                            //                                          이미지 높이 값
+                            cnt++; //0 1 2 3 4 5 6 7까지 
+                            //if(cnt>7)//보이는 갯수에 따라서 변경
+                            if(cnt>=show.length)//무조건 7이 아니고 각 상황마다 배열의 길이가 다름
+                            //cnt는 0-7까지니까 show.length-1 or >=
+                            {break;} //break 다음 코드부터 실행하지 않도록 설정 
+                            //if(cnt>7) break;//break 뒤에 코드 하나 밖에 없는 경우는 중괄호 빼도 됨(with문도 마찬가지)
                             console.log( cnt, i, j )
-                            }
+                            //$(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+                            //                                          이미지 높이 값
+                            $(".gallery li").removeClass("addZoom2");//모든 li 칸 초기화
+                            $(".gallery li").eq(show[cnt]).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
+                                $(this).addClass("addZoom2");// 화면이 늘어난 다음에 스케일 실행해야 하니까 콜백함수
+                            });
                         }
+                    }
+                    $(".gallery").addClass("addZoom"); // 이미지가 100% 커지면서 내용이 나타남
+                    //함수 끝에 들어가서 보이게 해야됨
+                }    
+
                     
                     /*  if(cols==4){   
                         //$(".gallery li").eq(0).css({ top:(imgH*줄번호), left:(imgW*칸번호), width:imgW, height:imgH }); //section09 gallery li에 들어있는 사진들. 
@@ -682,11 +712,78 @@ section234Fn:    function(){
                         $(".gallery li").eq(7).stop().animate({ top:(imgH*7), left:(imgW*0), width:imgW, height:imgH },300);
                     }
                     */
-                }   
-            
+                   
                 $(window).resize(function(){
                     galleryFn();
                 })
+
+            // 갤러리 버튼 이벤트 0-4 (5개)
+            $(".gallery-btn").each(function(index){//index : 내가 클릭한 값을 기억하도록 저장해놓음
+                //버튼 이벤트와 위의 반응형 갤러리와 연결되게 할것임
+                //클릭할 때 마다 슬라이드의 length가 변경됨 -> 위의 조건에서 바꿔주기
+                //배열 처리해줄거임, 배열안에 차례대로 저장해놨다가 위 for문에서 차례대로 출력시켜줄거임
+                // 각 버튼마다 배열이 다르기 때문에 각 값들을 알맞게 저장시키면 됨
+                $(this).on({
+                    click : function(e){
+                        e.preventDefault();
+
+                        $(".gallery-btn").removeClass("addNav");//$(".gallery-btn") 전체의 클래스를 없앤다
+                        $(this).addClass("addNav"); //현재 클릭된 것만 클래스를 더한다
+
+                        // if(index==0){}
+                        // else if(index==1){}
+                        // else if(index==2){}
+                        // else if(index==3){}
+                        // else{} 가 밑의 switch랑 같음
+
+                        switch(index){
+                            case 0 :
+                                hide = [];
+                                show = [0,1,2,3,4,5,6,7];
+                                break;
+                                // eq(0) : 첫번째 자식요소
+                                // hide = [];
+                                // show = [0,1,2,3,4,5,6,7];
+                            case 1 :
+                                hide = [0,2];
+                                show = [1,3,4,5,6,7];
+                                break;
+                                // eq(1) : 두번째 자식요소
+                                // hide = [0,2];
+                                // show = [1,3,4,5,6,7];
+                            case 2 :
+                                hide = [1,3,4,5];
+                                show = [0,2,6,7];
+                                break;
+                            case 3 :
+                                hide = [0,2,5];
+                                show = [1,3,4,6,7];
+                                break;    
+                            default:
+                                hide = [0,1,3,6];
+                                show = [2,4,5,7];
+                        }
+
+                        /*  // 이렇게 되게 배열처리 해주면 됨 -> 위의 for문 있는 함수랑 연결하면 끝
+                        // $(".gallery li").eq(0).hide();
+                        // $(".gallery li").eq(2).hide();
+
+                        // $(".gallery li").eq(1).show().stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                        // $(".gallery li").eq(3).show().stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                        // $(".gallery li").eq(4).show().stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                        // $(".gallery li").eq(5).show().stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
+                        // $(".gallery li").eq(6).show().stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                        // $(".gallery li").eq(7).show().stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                        */
+
+                        galleryFn(); //메인함수 호출 실행; 배열이 먼저 나오고 함수가 나와야 됨
+                        //번호 순서대로 되어야지 반복문 같은걸 쓰는데, 여기는 사라지고 보여지는게 규칙적이지 않아서 배열이 꼭 필요함
+                    }
+                })
+            })
+//8개짜리가 4개, 3개, 2개, 1개
+// 에다가 클릭 이벤트까지
+// 배열을 무조건 사용해야 긴 코드 안짜고 할 수 있음                
         },
         section10Fn:    function(){
             

@@ -288,6 +288,8 @@
             })
         },
         section09GalleryFn: function(){
+            $(".gallery").removeClass("addZoom");
+            $(".gallery").css({ height:imgH*rows });
             
             // 초기값 변수
             var hRate = 600/800; 
@@ -300,6 +302,10 @@
             var imgW = winW/cols;
             var imgH = imgW*hRate;
             
+            //배열 두 개 필요
+            var hide = [];// 초기값
+            var show = [0, 1, 2, 3, 4, 5, 6, 7];// 초기값
+
             setTimeout(galleryFn,100);
 
             function galleryFn(){
@@ -315,59 +321,71 @@
                 else if( winW <= 760 && winW >= 0){ //0~760
                     cols = 1;
                 }
-                n = $(".gallery li").length;
+                n =  show.length; //배열 show의 이미지 갯수
                 rows = Math.ceil(n/cols);
-
+                
                 winW = $(window).innerWidth();
                 imgW = winW/cols;
                 imgH = imgW*hRate;
 
-                // console.log("갤러리갯수", n);
-                // console.log("rate", hRate);
-                // console.log("줄 수", rows);
-                // console.log("칸 수", cols);
-                // console.log("imgW", imgW);
-                // console.log("winW", winW);
-                // console.log("imgH", imgH);
-
-                $(".gallery").css({ height:imgH*rows }).addClass("addZoom");
+                //갤러리 숨김 hide();
+                for(var i=0;i<hide.length;i++){
+                    $(".gallery li").eq(hide[i]).hide(); 
+                }
+                //갤러리 보이기 show();
                 var cnt = -1;
+
                 for(i=0;i<rows;i++){ 
                     for(j=0;j<cols;j++){ 
                         cnt++; //0 1 2 3 4 5 6 7
-                        if(cnt>7){break;}
-                        console.log( cnt, i, j )
-                    $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
-                    //                                      이미지 높이 값
+                        if(cnt>=show.length){break;}
+                        $(".gallery li").removeClass("addZoom2");//모든 li 칸 초기화
+                        $(".gallery li").eq(show[cnt]).show().stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
+                            $(this).addClass("addZoom2");// 화면이 늘어난 다음에 스케일
+                        });
                     }
                 }
-            }
+                $(".gallery").addClass("addZoom");
+            } //갤러리 메인 함수 끝
+
             $(window).resize(function(){
                 galleryFn();
             })
 
+            // 갤러리 버튼 이벤트 0-4 (5개)
+            $(".gallery-btn").each(function(index){
+                $(this).on({
+                    click : function(e){
+                        e.preventDefault();
 
-            //버튼 이벤트
-            $(".gallery-btn").eq(1).on({
-                click : function(e){
-                    e.preventDefault();
-                    $(".gallery").removeClass("addZoom")
-                    $(".gallery li").eq(0).hide();
-                    $(".gallery li").eq(2).hide();
+                        $(".gallery-btn").removeClass("addNav");
+                        $(this).addClass("addNav");
 
-                    $(".gallery li").eq(1).show().stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(3).show().stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(4).show().stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(5).show().stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(6).show().stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(7).show().stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
-                    
-                    $(".gallery").addClass("addZoom")
-                }
-            });
-
-
-
+                        switch(index){
+                            case 0 :
+                                hide = [];
+                                show = [0,1,2,3,4,5,6,7];
+                                break;
+                            case 1 :
+                                hide = [0,2];
+                                show = [1,3,4,5,6,7];
+                                break;
+                            case 2 :
+                                hide = [1,3,4,5];
+                                show = [0,2,6,7];
+                                break;
+                            case 3 :
+                                hide = [0,2,5];
+                                show = [1,3,4,6,7];
+                                break;    
+                            default:
+                                hide = [0,1,3,6];
+                                show = [2,4,5,7];
+                        }
+                        galleryFn(); //메인함수 호출 실행;
+                    }
+                })
+            })
         },
         section10Fn:    function(){
             
@@ -390,6 +408,7 @@
     }; 
 
 //위에서 함수를 만들고 밑에서 함수를 실행한다.
+
     brando.init();
 
 })(window,document,jQuery);
