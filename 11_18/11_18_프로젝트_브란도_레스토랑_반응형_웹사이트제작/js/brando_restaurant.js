@@ -339,6 +339,7 @@
                     for(j=0;j<cols;j++){ 
                         cnt++; //0 1 2 3 4 5 6 7
                         if(cnt>=show.length){break;}
+                        
                         $(".gallery li").removeClass("addZoom2");//모든 li 칸 초기화
                         $(".gallery li").eq(show[cnt]).show().stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300,function(){
                             $(this).addClass("addZoom2");// 화면이 늘어난 다음에 스케일
