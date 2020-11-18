@@ -1,5 +1,7 @@
 ;(function(window,document,$,undefined){ //항상 밑에서 위로 보기(업데이트 항목은 위로 써줌)
 
+    // var brando = 객체(host)
+    // 객체 안에 property가 있으면 객체함수(리터럴함수=익명함수) = 메소드처럼 쓸 수 있게 됨
     var brando = {
         init:           function(){ 
             var that=this;
@@ -241,7 +243,6 @@
                 //console.log(winH); -> lineHeight 설정 안 됨 
                 //ㄴ> background와 lineHeight는 꼭 뒤에 px 단위 써줘야됨
             }
-
             $(window).resize(function(){
                 resizeFn();
             });
@@ -286,9 +287,87 @@
                 }
             })
         },
-        section09GalleryFn:    function(){
-           //화면 줄이면 갤러리 배열 달라지게 하기
-           //1. 
+        section09GalleryFn: function(){
+            
+            // 초기값 변수
+            var hRate = 600/800; 
+
+            var cols = 4;
+            var n = $(".gallery li").length; //8
+            var rows = Math.ceil(n/cols);
+            var winW = $(window).innerWidth();
+
+            var imgW = winW/cols;
+            var imgH = imgW*hRate;
+            
+            setTimeout(galleryFn,100);
+
+            function galleryFn(){
+                if(winW > 1200){//(1201~)
+                    cols = 4;
+                }
+                else if( winW <= 1200 && winW > 980 ){ //1200이하  980초과 (981~1200)
+                    cols = 3;
+                }
+                else if( winW <= 980 && winW > 760){ //(761~980)
+                    cols = 2;
+                }
+                else if( winW <= 760 && winW >= 0){ //0~760
+                    cols = 1;
+                }
+                n = $(".gallery li").length;
+                rows = Math.ceil(n/cols);
+
+                winW = $(window).innerWidth();
+                imgW = winW/cols;
+                imgH = imgW*hRate;
+
+                // console.log("갤러리갯수", n);
+                // console.log("rate", hRate);
+                // console.log("줄 수", rows);
+                // console.log("칸 수", cols);
+                // console.log("imgW", imgW);
+                // console.log("winW", winW);
+                // console.log("imgH", imgH);
+
+                $(".gallery").css({ height:imgH*rows }).addClass("addZoom");
+                var cnt = -1;
+                for(i=0;i<rows;i++){ 
+                    for(j=0;j<cols;j++){ 
+                        cnt++; //0 1 2 3 4 5 6 7
+                        if(cnt>7){break;}
+                        console.log( cnt, i, j )
+                    $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+                    //                                      이미지 높이 값
+                    }
+                }
+            }
+            $(window).resize(function(){
+                galleryFn();
+            })
+
+
+            //버튼 이벤트
+            $(".gallery-btn").eq(1).on({
+                click : function(e){
+                    e.preventDefault();
+                    $(".gallery").removeClass("addZoom")
+                    $(".gallery li").eq(0).hide();
+                    $(".gallery li").eq(2).hide();
+
+                    $(".gallery li").eq(1).show().stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(3).show().stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(4).show().stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(5).show().stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(6).show().stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    $(".gallery li").eq(7).show().stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    
+                    $(".gallery").addClass("addZoom")
+                }
+            });
+
+
+
         },
         section10Fn:    function(){
             

@@ -121,7 +121,7 @@
 #main #section09 .wrap .gap .container .content .gallery-nav > ul > li > a.addNav {cursor:default;color:#212121;border-bottom:2px solid #d8b75f;}
 /* 갤러리는 메뉴버튼을 누를때마다 이미지들의 배열이 자유롭기 때문에 abs 써줘야됨 / 갤러리 이해하기 전에 CSS 먼저 이해하기 */
 #main #section09 .wrap .gap .container .content .gallery {position:relative;width:100%;height:calc(356.8125px*2);} /* height:calc(356.8125px*2)없으면 섹션 9 높이 자체가 없어짐(relative-absolute이기 때문에) */
-#main #section09 .wrap .gap .container .content .gallery > li {position:absolute;width:25%;height:356.8125px;overflow:hidden;/* transition:all .4s; */} /* {top:0;left:0;} */
+#main #section09 .wrap .gap .container .content .gallery > li {position:absolute;overflow:hidden;/* transition:all .4s; */} /* {top:0;left:0;} */
 /* 갤러리 가로 4개인 경우 */ 
 #main #section09 .wrap .gap .container .content .gallery > li:nth-child(1) {top:calc(356.8125px*0);left:calc(25%*0);width:25%;height:356.8125px;} /* {top:0;left:0;} */
 #main #section09 .wrap .gap .container .content .gallery > li:nth-child(2) {top:calc(356.8125px*0);left:calc(25%*1);width:25%;height:356.8125px;} /* {top:0;left:25%;} */

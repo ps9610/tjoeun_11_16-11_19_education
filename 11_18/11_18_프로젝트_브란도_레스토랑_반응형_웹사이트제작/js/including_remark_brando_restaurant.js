@@ -556,37 +556,137 @@ section234Fn:    function(){
                     //console.log(fileName, num); //012가 콘솔에 나오는 이유는 숫자로 인식하지 않기 때문, 숫자로 인식한다면 0은 안 나옴
             },    
             section09GalleryFn:    function(){
-                    //⭐갤러리 구현(계산식 많아서 따로 함수 만들어줌)⭐
-                    var winW = 0 ; //창 넓이
-                    var imgW = 0 ; //이미지 높이
-                    var imgH = 0 ; //이미지 넓이 //이미지 넓이 따라서 높이 바뀜
-                    var imgL = 0 ; //이미지 left값 : imgW*칸수:변수 (=이미지 너비 따라 바뀜 -> eq사용해줄거임)
-                    var imgT = 0 ; //이미지 탑값 : imgH*줄번호:변수 (=이미지 높이 따라 바뀜)
-                    var imgR = 0.75 ; //이미지 비율 = 0.75
-        
-                    setTimeout(resizeFn,100)
-        
-                    function resizeFn(){
-                        imgR = 0.75 ;
-                        winW = $(window).innerWidth();
-                        imgW = winW/4; //winW/4의 4가 변수
-                        imgH = imgW*imgR;
-        
-                        $(".gallery li").css({ height:imgH*2 }) //갤러리 전체박스 높이
-                        $(".gallery li").eq(0).css({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH })
-                        $(".gallery li").eq(1).css({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH })
-                        $(".gallery li").eq(2).css({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH })
-                        $(".gallery li").eq(3).css({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH })
-                       
-                        $(".gallery li").eq(4).css({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH })
-                        $(".gallery li").eq(5).css({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH })
-                        $(".gallery li").eq(6).css({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH })
-                        $(".gallery li").eq(7).css({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH })
+                //⭐갤러리 구현(계산식 많아서 따로 함수 만들어줌)⭐
+                // 타입스크립트 ; 어셈블리, 컴파인 언어와 같이 변수를 반드시 설정하는것에 대해 엄격함
+                // ECMA6 ; 호이스팅 발생 방지, 변수 재 사용 방지로 let/const 사용
+                // 갤러리는 창 넓이를 100% 사용하여 이미지를 배분함, 전체 창 넓이에서 칸 갯수대로 나눠줌 (% 줘도 됨)
+                // 이미지 한개당 넓이 800, 높이 600, 가로의 크기가 바뀌면 세로의 크기가 자동으로 바뀜 = 높이/너비 = 75%(0.75)
+                // ECMA6) const hRate = 600/800;    // ECMA6를 사용하면 IE 하위버전, 사파리 등 아무것도 안 되기 때문에 바벨 인코딩을 또 해줘야됨
+                
+                var hRate = 600/800; // 0.75; 이미지너비 * 이미지높이 비율 값, 상수값(=초기 고정된 값)
+            
+                // 초기값 변수(변수는 따로 함수지정)
+                var cols = 4; //칸 수 해상도별 변수사용
+                var n = $(".gallery li").length; //8
+                var rows = Math.ceil(8/cols); // 갤러리 갯수/칸 수 = 이것도변수, 딱 떨어지지 않으면 자리 올림 할 예정
+                                              // Math.ceil:자리올림; Math.round:반올림; Math.floor:자리내림; 
+                                              // 외에도 숫자로 바꿔주는 Number("01"); = parsInt("01") = 1;
+                var winW = $(window).innerWidth();
+                
+                var imgW = winW/cols; // 창너비 / 칸 수(cols)
+                var imgH = imgW*hRate;
+                
+                setTimeout(galleryFn,100);
+                
+                function galleryFn(){
+
+                    n = $(".gallery li").length;
+                    rows = Math.ceil(n/cols);
+                
+                    winW = $(window).innerWidth();
+                    imgW = winW/cols;
+                    imgH = imgW*hRate;
+
+                    if(winW > 1200){//(1201~)
+                        cols = 4;
                     }
-        
-                    $(window).resize(function(){
-                        resizeFn();
-                    })
+                    //if( widW >1200 /*창넓이에따라바뀜*/ ){ //창넓이가 1200초과다 라고하면 {cols=4}
+                    else if( winW <= 1200 && winW > 980/*창넓이에따라바뀜*/ ){ //1200이하다 그리고 980초과다(981~1200)
+                        cols = 3;
+                    }
+                    else if( winW <= 980 && winW > 760){ //(761~980)
+                        cols = 2;
+                    }
+                    else if( winW <= 760 && winW >= 0){ //0~760
+                        cols = 1;
+                    }
+                    
+                    // console.log("갤러리갯수", n);
+                    // console.log("rate", hRate);
+                    // console.log("줄 수", rows);
+                    // console.log("칸 수", cols);
+                    // console.log("imgW", imgW);
+                    // console.log("winW", winW);
+                    // console.log("imgH", imgH);
+                
+                    //칸 수에 따라서 줄 수 바뀜
+                    $(".gallery").css({ height:imgH*rows }); //이미지높이*줄수(현재4칸2줄), 줄 수도 변수사용
+                    var cnt = -1;
+                    for(i=0;i<rows;i++){ //0~1까지 i = 줄 수 
+                        for(j=0;j<cols;j++){ // 0~3 0부터 4 미만까지, j = 칸 수
+                            cnt++; //0 1 2 3 4 5 6 7까지 8번
+                            if(cnt>7){break;}
+                            $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
+                            //                                          이미지 높이 값
+                            console.log( cnt, i, j )
+                            }
+                        }
+                    
+                    /*  if(cols==4){   
+                        //$(".gallery li").eq(0).css({ top:(imgH*줄번호), left:(imgW*칸번호), width:imgW, height:imgH }); //section09 gallery li에 들어있는 사진들. 
+                        //칸 수가 4칸인 경우, width>1200
+                        //첨에 설정한 css를 animate로 바꿔주면 왔다 갔다 거리면서 바뀜
+                        $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(3).stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(6).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(7).stop().animate({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH },300);
+                    }
+                    else if(cols==3){
+                        //칸 수가 3칸인 경우
+                        $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
+                        
+                        $(".gallery li").eq(6).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(7).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
+                    }
+                    else if(cols==2){
+                        //칸 수가 2칸인 경우
+                        $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(2).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(4).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(5).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
+                        
+                        $(".gallery li").eq(6).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
+                        $(".gallery li").eq(7).stop().animate({ top:(imgH*3), left:(imgW*1), width:imgW, height:imgH },300);
+                    }
+                    else if(cols==1){
+                        //칸 수가 1칸인 경우
+                        $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(1).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(2).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(3).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(4).stop().animate({ top:(imgH*4), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(5).stop().animate({ top:(imgH*5), left:(imgW*0), width:imgW, height:imgH },300);
+                        
+                        $(".gallery li").eq(6).stop().animate({ top:(imgH*6), left:(imgW*0), width:imgW, height:imgH },300);
+                    
+                        $(".gallery li").eq(7).stop().animate({ top:(imgH*7), left:(imgW*0), width:imgW, height:imgH },300);
+                    }
+                    */
+                }   
+            
+                $(window).resize(function(){
+                    galleryFn();
+                })
         },
         section10Fn:    function(){
             

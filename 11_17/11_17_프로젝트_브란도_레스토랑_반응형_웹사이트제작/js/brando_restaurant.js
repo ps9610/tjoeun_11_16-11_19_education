@@ -339,76 +339,16 @@
                         console.log( cnt, i, j )
                     $(".gallery li").eq(cnt).stop().animate({ top:(imgH*i), left:(imgW*j), width:imgW, height:imgH },300);
                     //                                      이미지 높이 값
+                    }
                 }
             }
-                /* 
-                    if(cols==4){
-                    //칸 수가 4칸인 경우
-                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(3).stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(6).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(7).stop().animate({ top:(imgH*1), left:(imgW*3), width:imgW, height:imgH },300);
-                }
-                else if(cols==3){
-                    //칸 수가 3칸인 경우
-                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(2).stop().animate({ top:(imgH*0), left:(imgW*2), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(4).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(5).stop().animate({ top:(imgH*1), left:(imgW*2), width:imgW, height:imgH },300);
-                    
-                    $(".gallery li").eq(6).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(7).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
-                }
-                else if(cols==2){
-                    //칸 수가 2칸인 경우
-                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(1).stop().animate({ top:(imgH*0), left:(imgW*1), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(2).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(3).stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(4).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(5).stop().animate({ top:(imgH*2), left:(imgW*1), width:imgW, height:imgH },300);
-                    
-                    $(".gallery li").eq(6).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
-                    $(".gallery li").eq(7).stop().animate({ top:(imgH*3), left:(imgW*1), width:imgW, height:imgH },300);
-                }
-                else if(cols==1){
-                    //칸 수가 1칸인 경우
-                    $(".gallery li").eq(0).stop().animate({ top:(imgH*0), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(1).stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(2).stop().animate({ top:(imgH*2), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(3).stop().animate({ top:(imgH*3), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(4).stop().animate({ top:(imgH*4), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(5).stop().animate({ top:(imgH*5), left:(imgW*0), width:imgW, height:imgH },300);
-                    
-                    $(".gallery li").eq(6).stop().animate({ top:(imgH*6), left:(imgW*0), width:imgW, height:imgH },300);
-
-                    $(".gallery li").eq(7).stop().animate({ top:(imgH*7), left:(imgW*0), width:imgW, height:imgH },300);
-                }
-                */
-            } 
-
             $(window).resize(function(){
                 galleryFn();
             })
 
 
             //버튼 이벤트
-            $(".gallery-btn").on({
+            $(".gallery-btn").eq(1).on({
                 click : function(e){
                     e.preventDefault();
                     $(".gallery").removeClass("addZoom")
@@ -421,9 +361,10 @@
                     $(".gallery li").eq(5).show().stop().animate({ top:(imgH*0), left:(imgW*3), width:imgW, height:imgH },300);
                     $(".gallery li").eq(6).show().stop().animate({ top:(imgH*1), left:(imgW*0), width:imgW, height:imgH },300);
                     $(".gallery li").eq(7).show().stop().animate({ top:(imgH*1), left:(imgW*1), width:imgW, height:imgH },300);
+                    
                     $(".gallery").addClass("addZoom")
                 }
-            })
+            });
 
 
 
