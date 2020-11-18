@@ -328,13 +328,16 @@
                 imgW = winW/cols;
                 imgH = imgW*hRate;
 
+                console.log("hide",hide);
+                console.log("show",show);
+                
                 //갤러리 숨김 hide();
                 for(var i=0;i<hide.length;i++){
                     $(".gallery li").eq(hide[i]).hide(); 
                 }
                 //갤러리 보이기 show();
                 var cnt = -1;
-
+                
                 for(i=0;i<rows;i++){ 
                     for(j=0;j<cols;j++){ 
                         cnt++; //0 1 2 3 4 5 6 7
@@ -383,7 +386,7 @@
                                 show = [2,4,5,7];
                         }
                         galleryFn(); //메인함수 호출 실행;
-                    }
+                    }   
                 })
             })
         },
