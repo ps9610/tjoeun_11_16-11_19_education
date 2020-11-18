@@ -620,6 +620,7 @@ section234Fn:    function(){
                 
                     console.log("hide",hide);
                     console.log("show",show);
+                    
                     //갤러리 숨김 hide();
                     //         (i<hide 배열길이;)
                     for(var i=0;i<hide.length;i++){

@@ -45,6 +45,7 @@
 #main #section01 .hungry > img {width:40%;}
 }
 @media all and (max-width:991px) and (orientation:portrait){
-/* ㄴ>해상도가 991px이하이고 핸드폰 세로로 돌렸을 때 해당 */
-#main #section01 .hungry > img {width:70%;}
+    /* ㄴ>해상도가 991px이하이고 핸드폰 세로로 돌렸을 때 해당 */
+    #main #section01 .hungry > img {width:70%;}
 }
+
