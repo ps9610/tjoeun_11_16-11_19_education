@@ -52,7 +52,7 @@
 @media all and (max-width:760px){
     #main #section09 {padding-top:70px}
     #main #section09 .wrap .gap .container .content {padding-top:50px;}
-    #main #section09 .wrap .gap .container .content .gallery-nav {padding-bottom:20px;}
+    #main #section09 .wrap .gap .container .content .gallery-nav {padding-bottom:30px;}
     #main #section09 .wrap .gap .container .content .gallery-nav > ul > li {display:block;margin:0;padding-bottom:20px;}/* 좌우여백 필요없고 아래 여백만 필요함 */
     #main #section09 .wrap .gap .container .content .gallery-nav > ul > li > a {display:inline-block;}
 }
