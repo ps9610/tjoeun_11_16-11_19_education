@@ -144,8 +144,21 @@
 #main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h5 {width:auto;}
 #main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h5 > img {width:auto;}
 
-#main #section06 .wrap .container > li .gap .content .large-box {opacity:0;z-index:3;position:absolute;top:-6%;left:10%;width:80%;height:86%;background:url(../img/restaurant-img7.jpg) no-repeat 50% 50%; background-size:cover;outline:8px solid #c8a64b;transition:all .6s;}
+#main #section06 .wrap .container > li .gap .content .large-box {opacity:0;z-index:3;position:absolute;top:-10%;left:10%;width:80%;height:86%;background:url(../img/restaurant-img7.jpg) no-repeat 50% 50%; background-size:cover;outline:8px solid #c8a64b;transition:all .6s;}
 #main #section06 .wrap .container > li .gap .content:hover .large-box {opacity:1;top:7%;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap {margin:40px;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul {width:100%}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li {border-bottom:1px solid #cecece;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul:last-child > li {border-bottom:0;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul {width:100%;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li {float:left;padding:5px 0;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li:nth-child(1) {width: 24.9182621%;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li:nth-child(1) > div {padding:13px;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li:nth-child(2) {width:75.0817319%;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li:nth-child(2) > div {padding:20px 0;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li > div > img {width:100%;border-radius:50%;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li > div > h3 {font-size:13px;color:#614c45;font-weight:600;font-family:"Montserrat";padding-bottom:6px;;}
+#main #section06 .wrap .container > li .gap .content .large-box .large-box-gap > ul > li > ul > li > div > h3 > p {font-size:13px;width:90%;color:#626262;line-height:150%;}
 
 #main #section07 {width:100%;height:782px;padding:130px 0;}
 #main #section08 {width:100%;height:581px;background:url(../img/restaurant-img24.jpg) 50% 50% fixed;background-size:cover;}
