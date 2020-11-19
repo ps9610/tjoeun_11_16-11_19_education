@@ -38,6 +38,16 @@
     #main #section04 {background-attachment:scroll}
 
     #main #section01 .hungry > img {width:60%;}/* 1200px일 때보다 더 적게 */
+    
+    #main #section05 .wrap .title-wrap {padding-top:0;}
+    #main #section05 .wrap .title-wrap,
+    #main #section05 .wrap .left-wrap {width:70%;margin:0 auto 0 85px;padding-top:0;}
+    #main #section05 .wrap .right-wrap {width:70%;margin:0 auto 0 85px;top:0;text-align:center;}
+    #main #section05 .wrap .right-wrap .gap .content > div {margin:7% auto;}
+    #main #section05 .wrap .right-wrap .gap .content > p {letter-spacing:.5px;margin-bottom:3%;}
+    #main #section05 .wrap .right-wrap .gap .content > p > br {display:inline-block;}
+
+
 }
 
 @media all and (max-width:991px) and (orientation:landscape){
