@@ -124,7 +124,29 @@
 #main #section05 .wrap .right-wrap .gap > .content > span > a {display:inline-block;padding:6px 20px;color:#000;background:transparent;border:4px solid #000;transition:all .3s;text-transform:uppercase;}
 #main #section05 .wrap .right-wrap .gap > .content > span > a:hover {color:#fff;background:#000;}
 
-#main #section06 {width:100%;height:740px;background:#fff;}
+#main #section06 {width:100%;height:740px;background:url(../img/restaurant-img7.jpg) no-repeat 50% 50%;background-size:cover;}
+#main #section06 .wrap {width:100%;height:100%;height:100%;}
+#main #section06 .wrap .container {width:100%;height:100%;}
+#main #section06 .wrap .container > li {float:left;width:33.333333%;height:100%;}
+#main #section06 .wrap .container > li .gap {margin:0 15px;width:auto;height:100%;overflow:hidden;}
+#main #section06 .wrap .container > li .gap .content {position:relative;width:100%;height:100%;}
+#main #section06 .wrap .container > li:nth-child(1) .gap .content {background:url(../img/restaurant-img6.jpg) no-repeat 50% 50%;background-size:cover;}
+#main #section06 .wrap .container > li:nth-child(2) .gap .content {background:url(../img/restaurant-img17.jpg) no-repeat 50% 50%;background-size:cover;}
+#main #section06 .wrap .container > li:nth-child(3) .gap .content {background:url(../img/restaurant-img18.jpg) no-repeat 50% 50%;background-size:cover;}
+#main #section06 .wrap .container > li .gap .content .small-box {z-index:1;position:relative;top:22%;left:22%;width:56%;height:56%;background:#fff;text-align:center;} /* 넓이:362.6px;높이:444px; */
+#main #section06 .wrap .container > li .gap .content .small-box:after {content:'';display:block;z-index:2;position:absolute;top:6%;left:7%;width:86%;height:88%;outline:6px solid #e5e5e5;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap {padding-top:70px;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap {width:auto;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h2 {padding-bottom:20px;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h2 > img {width:150px;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h3 {font-size:20px;color:#c8a64b;padding-bottom:13px;font-weight:700;font-family:"Montserrat";letter-spacing:0.5px;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h4 {font-size:11px;color:#626262;padding-bottom:10px;letter-spacing:1px;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h5 {width:auto;}
+#main #section06 .wrap .container > li .gap .content .small-box .small-box-gap .small-text-wrap > h5 > img {width:auto;}
+
+#main #section06 .wrap .container > li .gap .content .large-box {opacity:0;z-index:3;position:absolute;top:-6%;left:10%;width:80%;height:86%;background:url(../img/restaurant-img7.jpg) no-repeat 50% 50%; background-size:cover;outline:8px solid #c8a64b;transition:all .6s;}
+#main #section06 .wrap .container > li .gap .content:hover .large-box {opacity:1;top:7%;}
+
 #main #section07 {width:100%;height:782px;padding:130px 0;}
 #main #section08 {width:100%;height:581px;background:url(../img/restaurant-img24.jpg) 50% 50% fixed;background-size:cover;}
 
